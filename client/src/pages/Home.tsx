@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { HelpCircle, Cog, Bot } from 'lucide-react';
+import { HelpCircle, Cog, Bot, Info, ShieldCheck, Zap } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { useLocation } from 'wouter';
 
 import ApiSelector from '@/components/ApiSelector';
 import ModelSelector from '@/components/ModelSelector';
@@ -18,6 +19,27 @@ export default function Home() {
   const [hasResponse, setHasResponse] = useState<boolean>(false);
   const [responseText, setResponseText] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userSubscription, setUserSubscription] = useState<string>('free');
+  const [_, setLocation] = useLocation();
+  
+  // Check authentication status
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userJson = localStorage.getItem('user');
+    
+    if (token && userJson) {
+      try {
+        const userData = JSON.parse(userJson);
+        setIsAuthenticated(true);
+        if (userData.subscription_tier) {
+          setUserSubscription(userData.subscription_tier);
+        }
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
+  }, []);
 
   // Fetch available models based on selected API
   const { data: availableModels = [] } = useQuery({
@@ -76,6 +98,11 @@ export default function Home() {
     }
   };
 
+  // Function to handle login/register navigation
+  const handleLogin = () => setLocation('/login');
+  const handleSignup = () => setLocation('/register');
+  const handleUpgrade = () => setLocation('/plans');
+  
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-5xl mx-auto px-4 py-8 md:px-6 lg:px-8">
@@ -87,6 +114,13 @@ export default function Home() {
               AI Prompt Interface
             </h1>
             <div className="flex items-center space-x-3">
+              {isAuthenticated && (
+                <div className="flex items-center mr-2">
+                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80">
+                    <ShieldCheck className="mr-1 h-3 w-3" /> {userSubscription.toUpperCase()}
+                  </span>
+                </div>
+              )}
               <button className="text-gray-500 hover:text-gray-700 transition-colors">
                 <HelpCircle className="h-5 w-5" />
               </button>
@@ -97,6 +131,56 @@ export default function Home() {
           </div>
           <p className="text-gray-600 mt-2">Choose an AI provider and send your prompt to get a response</p>
         </header>
+
+        {/* Authentication warning banner */}
+        {!isAuthenticated && (
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 flex items-start">
+            <Info className="text-amber-500 mr-3 mt-0.5 h-5 w-5 shrink-0" />
+            <div>
+              <h3 className="font-medium text-amber-800">Authentication Required</h3>
+              <p className="text-amber-700 text-sm mt-1">
+                You are currently using the app in guest mode with limited access. 
+                Please log in or register to save your history and access premium features.
+              </p>
+              <div className="flex space-x-3 mt-3">
+                <button
+                  onClick={handleLogin}
+                  className="text-xs bg-transparent hover:bg-amber-500 text-amber-700 font-semibold hover:text-white py-1 px-3 border border-amber-500 hover:border-transparent rounded"
+                >
+                  Log In
+                </button>
+                <button
+                  onClick={handleSignup}
+                  className="text-xs bg-amber-500 hover:bg-amber-700 text-white font-semibold py-1 px-3 border border-transparent rounded"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Subscription upgrade banner */}
+        {isAuthenticated && userSubscription === 'free' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start">
+            <Zap className="text-blue-500 mr-3 mt-0.5 h-5 w-5 shrink-0" />
+            <div>
+              <h3 className="font-medium text-blue-800">Upgrade Your Experience</h3>
+              <p className="text-blue-700 text-sm mt-1">
+                You're currently on the Free tier with limited requests. Upgrade to access more models,
+                increased daily requests, and premium features.
+              </p>
+              <div className="mt-3">
+                <button
+                  onClick={handleUpgrade}
+                  className="text-xs bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-3 border border-transparent rounded"
+                >
+                  View Premium Plans
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <main>
           {/* API Selector */}
