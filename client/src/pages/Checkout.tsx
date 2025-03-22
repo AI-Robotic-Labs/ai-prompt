@@ -114,7 +114,22 @@ export default function Checkout() {
         const response = await apiRequest('POST', '/api/create-subscription', { planId });
         
         if (!response.ok) {
-          throw new Error('Failed to create subscription');
+          const errorData = await response.json();
+          
+          // Check if it's a demo mode error
+          if (errorData.error === "DEMO_MODE") {
+            toast({
+              title: "Demo Mode",
+              description: "This is a demonstration application. Paid plans are not available in demo mode. Only the Free tier is functional.",
+              variant: "default",
+            });
+          } else {
+            throw new Error(errorData.message || 'Failed to create subscription');
+          }
+          
+          // Redirect back to plans page
+          setLocation('/plans');
+          return;
         }
         
         const data = await response.json();

@@ -82,6 +82,10 @@ export default function Plans() {
         <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
           Select the plan that best fits your needs. Upgrade or downgrade at any time.
         </p>
+        <p className="text-amber-500 dark:text-amber-400 text-sm mt-2 max-w-2xl mx-auto">
+          Note: This is a demonstration application. Currently, only the Free tier is functional.
+          Paid plans require a valid Stripe account with configured products.
+        </p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
