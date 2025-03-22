@@ -398,8 +398,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // For paid plans, we need Stripe
-      if (!plan.stripe_price_id) {
-        return res.status(400).json({ message: "This plan is not available for subscription" });
+      if (!plan.stripe_price_id || plan.stripe_price_id.startsWith('price_')) {
+        return res.status(400).json({ 
+          message: "This plan is currently in test mode and not available for subscription. The application is using placeholder Stripe price IDs instead of real ones.", 
+          error: "DEMO_MODE" 
+        });
       }
       
       // Create or retrieve Stripe customer
