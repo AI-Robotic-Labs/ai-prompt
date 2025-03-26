@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaRobot } from "react-icons/fa";
+import { FaRobot, FaCode } from "react-icons/fa";
 import { SiOpenai, SiGoogle } from "react-icons/si";
 
 interface ApiSelectorProps {
@@ -11,6 +11,7 @@ export default function ApiSelector({ selectedApi, onApiChange }: ApiSelectorPro
   const apiProviders = [
     { id: "openai", name: "OpenAI", icon: <SiOpenai className="w-5 h-5 mr-2" /> },
     { id: "gemini", name: "Gemini", icon: <SiGoogle className="w-5 h-5 mr-2" /> },
+    { id: "deepseek", name: "DeepSeek", icon: <FaCode className="w-5 h-5 mr-2" /> },
   ];
 
   return (
