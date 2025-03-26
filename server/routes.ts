@@ -231,8 +231,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.status(200).json(models);
   });
 
-  // Send prompt to AI API (protected by authentication and subscription check)
-  app.post("/api/prompt", authenticateToken, checkSubscription, async (req: Request, res: Response) => {
+  // Send prompt to AI API (temporarily allows guest access for testing)
+  app.post("/api/prompt", async (req: Request, res: Response) => {
     try {
       // Validate request body
       const validatedData = promptSchema.parse(req.body);
