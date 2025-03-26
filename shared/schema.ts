@@ -3,7 +3,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 // API Providers and Models
-export const providers = ["openai", "gemini"] as const;
+export const providers = ["openai", "gemini", "deepseek"] as const;
 export type Provider = (typeof providers)[number];
 
 export interface ApiModel {
