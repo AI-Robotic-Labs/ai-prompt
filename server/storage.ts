@@ -70,7 +70,8 @@ export class MemStorage implements IStorage {
       ],
       deepseek: [
         { id: 'deepseek-coder', name: 'DeepSeek Coder' },
-        { id: 'deepseek-chat', name: 'DeepSeek Chat' }
+        { id: 'deepseek-chat', name: 'DeepSeek Chat' },
+        { id: 'deepseek-r1', name: 'DeepSeek R1' }
       ]
     };
     

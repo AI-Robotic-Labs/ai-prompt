@@ -47,6 +47,8 @@ export async function generateDeepSeekResponse(model: string, prompt: string): P
     let actualModel = "deepseek-chat";
     if (model === "deepseek-coder") {
       actualModel = "deepseek-coder";
+    } else if (model === "deepseek-r1") {
+      actualModel = "deepseek-r1-instruct";
     }
 
     const requestBody: DeepSeekCompletionRequest = {
