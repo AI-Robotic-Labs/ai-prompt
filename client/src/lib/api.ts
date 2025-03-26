@@ -8,6 +8,11 @@ const models = {
   gemini: [
     { id: 'gemini-pro', name: 'Gemini Pro' },
     { id: 'gemini-ultra', name: 'Gemini Ultra' }
+  ],
+  deepseek: [
+    { id: 'deepseek-coder', name: 'DeepSeek Coder' },
+    { id: 'deepseek-chat', name: 'DeepSeek Chat' },
+    { id: 'deepseek-r1', name: 'DeepSeek R1' }
   ]
 };
 

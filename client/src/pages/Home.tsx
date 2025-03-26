@@ -51,7 +51,13 @@ export default function Home() {
   const handleApiChange = (api: string) => {
     setSelectedApi(api);
     // Reset model to the first available one for this provider
-    if (availableModels.length > 0) {
+    if (api === 'openai') {
+      setSelectedModel('gpt-4o');
+    } else if (api === 'gemini') {
+      setSelectedModel('gemini-pro');
+    } else if (api === 'deepseek') {
+      setSelectedModel('deepseek-r1');
+    } else if (availableModels.length > 0) {
       setSelectedModel(availableModels[0].id);
     }
   };
