@@ -57,7 +57,7 @@ export class MemStorage implements IStorage {
     this.subscriptionId = 1;
     this.paymentId = 1;
     
-    // Define models for OpenAI and Gemini providers only
+    // Define models for OpenAI, Gemini, and DeepSeek providers
     this.models = {
       openai: [
         { id: 'gpt-4o', name: 'GPT-4o' },
@@ -67,6 +67,10 @@ export class MemStorage implements IStorage {
       gemini: [
         { id: 'gemini-pro', name: 'Gemini Pro' },
         { id: 'gemini-ultra', name: 'Gemini Ultra' }
+      ],
+      deepseek: [
+        { id: 'deepseek-coder', name: 'DeepSeek Coder' },
+        { id: 'deepseek-chat', name: 'DeepSeek Chat' }
       ]
     };
     
@@ -79,7 +83,7 @@ export class MemStorage implements IStorage {
         currency: "USD",
         features: ["5 requests per day", "Access to basic models", "No credit card required"],
         requestsPerDay: 5,
-        modelAccess: ["openai", "gemini"],
+        modelAccess: ["openai", "gemini", "deepseek"],
       },
       {
         id: "basic",
@@ -93,7 +97,7 @@ export class MemStorage implements IStorage {
           "Save favorite prompts"
         ],
         requestsPerDay: 100,
-        modelAccess: ["openai", "gemini"],
+        modelAccess: ["openai", "gemini", "deepseek"],
         stripe_price_id: "price_basic" // This would be replaced with a real Stripe price ID
       },
       {
@@ -109,7 +113,7 @@ export class MemStorage implements IStorage {
           "Advanced analytics"
         ],
         requestsPerDay: 9999,
-        modelAccess: ["openai", "gemini"],
+        modelAccess: ["openai", "gemini", "deepseek"],
         stripe_price_id: "price_premium" // This would be replaced with a real Stripe price ID
       },
       {
@@ -126,7 +130,7 @@ export class MemStorage implements IStorage {
           "Advanced analytics"
         ],
         requestsPerDay: 9999,
-        modelAccess: ["openai", "gemini"],
+        modelAccess: ["openai", "gemini", "deepseek"],
         stripe_price_id: "price_enterprise" // This would be replaced with a real Stripe price ID
       }
     ];
