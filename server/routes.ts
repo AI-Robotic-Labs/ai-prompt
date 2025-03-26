@@ -6,6 +6,7 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { generateOpenAIResponse } from "./ai/openai";
 import { generateGeminiResponse } from "./ai/gemini";
+import { generateDeepSeekResponse } from "./ai/deepseek";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Stripe from "stripe";
@@ -245,6 +246,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           break;
         case "gemini":
           response = await generateGeminiResponse(model, prompt);
+          break;
+        case "deepseek":
+          response = await generateDeepSeekResponse(model, prompt);
           break;
         default:
           return res.status(400).json({ message: `Unsupported provider: ${provider}` });
